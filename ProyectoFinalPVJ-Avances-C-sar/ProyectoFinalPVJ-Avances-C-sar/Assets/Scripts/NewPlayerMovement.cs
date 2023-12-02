@@ -34,6 +34,13 @@ public class NewPlayerMovement : MonoBehaviour
 
     }
 
+    public void Teleport(Vector3 position)
+    {
+        transform.position = position;
+        Physics.SyncTransforms();
+        direction = Vector3.zero;
+    }
+
     private void OnMove(InputValue value)
     {
         var data = value.Get<Vector2>();
