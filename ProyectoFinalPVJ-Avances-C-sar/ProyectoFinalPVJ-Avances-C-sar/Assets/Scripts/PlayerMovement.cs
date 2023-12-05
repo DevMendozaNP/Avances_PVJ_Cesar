@@ -12,6 +12,8 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 direction = Vector3.zero;
     private CharacterController characterController;
     private Animator animator;
+    
+    private bool PlayerDeath = false;
 
     private void Awake()
     {
@@ -30,20 +32,40 @@ public class PlayerMovement : MonoBehaviour
             animator.SetBool("IsWalking", true);
         }
         characterController.Move(
-            transform.forward * direction.normalized.z * Time.deltaTime * MovementSpeed
-            + transform.right * direction.normalized.x * Time.deltaTime * MovementSpeed
+            //transform.forward * direction.normalized.z * Time.deltaTime * MovementSpeed
+            //+ transform.right * direction.normalized.x * Time.deltaTime * MovementSpeed
+            direction.normalized * Time.deltaTime * MovementSpeed
         );
 
     }
 
+    public void Teleport(Vector3 position)
+    {
+        transform.position = position;
+        Physics.SyncTransforms();
+        direction = Vector3.zero;
+    }
+
+    public void DeathUpdater()
+    {
+        if (PlayerDeath == false)
+        {
+            MovementSpeed = 0f;
+            PlayerDeath = true;
+        }
+    }
+
     private void OnMove(InputValue value)
     {
-        var data = value.Get<Vector2>();
-        direction = new Vector3(
-            data.x,
-            0f,
-            data.y
-        );
+        if (PlayerDeath == false)
+        {
+            var data = value.Get<Vector2>();
+            direction = new Vector3(
+                data.x,
+                0f,
+                data.y
+            );
+        }
     }
 
     private void OnFire(InputValue value)

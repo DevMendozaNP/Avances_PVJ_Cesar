@@ -9,6 +9,7 @@ public class PlayerRotation : MonoBehaviour
     private Vector3 mousePos;
     private Vector3 mouseWorld;
     private Vector3 rotation = Vector3.zero;
+    private bool PlayerDeath = false;
 
     [SerializeField] private Camera mainCamera;
     private void Awake()
@@ -17,16 +18,26 @@ public class PlayerRotation : MonoBehaviour
     }
     void Update()
     {
-        Ray cameraRay = mainCamera.ScreenPointToRay(Input.mousePosition);
-        Plane groundPlane = new Plane(Vector3.up, Vector3.zero);
-        float rayLenght;
-        if (groundPlane.Raycast(cameraRay, out rayLenght))
+        if (PlayerDeath == false)
         {
-            Vector3 pointToLook = cameraRay.GetPoint(rayLenght);
-            Debug.DrawLine(cameraRay.origin, pointToLook,Color.blue);
-            transform.LookAt(new Vector3(pointToLook.x, transform.position.y, pointToLook.z));
+            Ray cameraRay = mainCamera.ScreenPointToRay(Input.mousePosition);
+            Plane groundPlane = new Plane(Vector3.up, Vector3.zero);
+            float rayLenght;
+            if (groundPlane.Raycast(cameraRay, out rayLenght))
+            {
+                Vector3 pointToLook = cameraRay.GetPoint(rayLenght);
+                Debug.DrawLine(cameraRay.origin, pointToLook,Color.blue);
+                transform.LookAt(new Vector3(pointToLook.x, transform.position.y, pointToLook.z));
+            }
         }
     }
 
+    public void DeathUpdater()
+    {
+        if (PlayerDeath == false)
+        {
+            PlayerDeath = true;
+        }
+    }
 
 }

@@ -8,7 +8,7 @@ public class PortalFunction : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("Player") && other.TryGetComponent<NewPlayerMovement>(out var mainPlayer))
+        if(other.CompareTag("Player") && other.TryGetComponent<PlayerMovement>(out var mainPlayer))
         {
             mainPlayer.Teleport(destination.position);
         }
