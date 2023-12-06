@@ -1,0 +1,46 @@
+using UnityEngine;
+
+public class AssaultRifleShooting : MonoBehaviour
+{
+    public float damage = 5f;
+    public float range = 200f;
+    public Transform rifleMuzzle;
+    public GameObject rifleParticlesPrefab;
+
+    void Update()
+    {
+        if (Input.GetButtonDown("Fire1"))
+        {
+            Shoot();
+            FireAssaultRifle();
+        }
+    }
+
+    void Shoot()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(fpsCamera.transform.position, fpsCamera.transform.forward, out hit, range))
+        {
+            Enemy enemy = hit.transform.GetComponent<Enemy>();
+            if (enemy != null)
+            {
+                enemy.TakeDamage(damage);
+            }
+        }
+    }
+
+    void FireAssaultRifle()
+    {
+        RaycastHit hit;
+
+        if (Physics.Raycast(rifleMuzzle.position, rifleMuzzle.forward, out hit, 30f))
+        {
+            Debug.Log(hit.collider.transform.name);
+            Quaternion lookAt = Quaternion.LookRotation(hit.normal);
+            GameObject temp = Resources.Load<GameObject>("AssaultRifleParticles");
+            var obj = Instantiate(temp, hit.point, lookAt);
+
+            Destroy(obj, 2f);
+        }
+    }
+}
