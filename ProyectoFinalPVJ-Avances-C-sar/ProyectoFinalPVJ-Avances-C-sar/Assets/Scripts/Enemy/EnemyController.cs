@@ -21,14 +21,13 @@ public class EnemyController : MonoBehaviour
     public float Health = 100f;
     public float DamageRecived = 0f;
 
-
+    [SerializeField] private GameObject level;
     public Rigidbody rb {  get; private set; }
     public Animator animator { get; private set; }
     public NavMeshAgent agent { get; private set; }
     public CapsuleCollider coll;
     private GameObject self;
-
-    
+   
     private void Awake()
     {
         IdleState = new IdleState(this);
@@ -48,9 +47,6 @@ public class EnemyController : MonoBehaviour
         currentState.OnStart();
     }
 
-
-
-
     private void Update()
     {
         foreach (var transition in currentState.Transitions)
@@ -68,6 +64,7 @@ public class EnemyController : MonoBehaviour
         if (Health <= 0f)
         {
             Destroy(self);
+            level.GetComponent<EnemyDetector>().DeathCounter(1f);
         }
         //Debug.Log(Health);
         //Debug.Log(DamageRecived);
