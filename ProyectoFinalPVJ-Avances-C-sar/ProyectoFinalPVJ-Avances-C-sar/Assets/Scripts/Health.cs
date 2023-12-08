@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class Health : MonoBehaviour
 {
@@ -10,9 +11,12 @@ public class Health : MonoBehaviour
     [SerializeField] private float iframe = 0.5f;
     private CapsuleCollider col;
     private bool iFrameActivated = false;
+    private bool alreadyDead = false;
 
     [SerializeField] private GameObject playerUI;
     [SerializeField] private GameObject deathScreen;
+    [SerializeField] private AudioSource damageSound;
+    [SerializeField] private AudioSource deathSound;
 
     private void Awake()
     {
@@ -31,9 +35,10 @@ public class Health : MonoBehaviour
 
     public void TakeDamage(int damage)
     {       
-        if (iFrameActivated == false)
+        if (iFrameActivated == false && alreadyDead == false)
         {
             currentHealth -= damage;
+            damageSound.Play();
 
             if (iframe != 0)
             {
@@ -41,15 +46,22 @@ public class Health : MonoBehaviour
             }
         }  
 
-        if (currentHealth <= 0)
+        if (currentHealth <= 0 && alreadyDead == false)
             {
+                deathSound.Play();
                 this.gameObject.GetComponent<PlayerMovement>().DeathUpdater();
                 this.gameObject.GetComponent<PlayerCombat>().DeathUpdater();
                 this.gameObject.GetComponent<PlayerRotation>().DeathUpdater();
                 anim.SetBool("IsDead", true);
                 StartCoroutine(DeathWaits());
+                alreadyDead = true;
             }
 
+    }
+
+    public void GetHealth()
+    {
+        currentHealth = maxHealth;
     }
 
     private IEnumerator IframeUpdater()

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class EnemyDetector : MonoBehaviour
 {
@@ -8,6 +9,10 @@ public class EnemyDetector : MonoBehaviour
     [SerializeField] private GameObject levelBarrier2;
     [SerializeField] private GameObject levelBarrier3;
     [SerializeField] private GameObject victoria;
+    [SerializeField] private GameObject playerUI;
+    [SerializeField] AudioSource enemyKilled;
+    [SerializeField] AudioSource doorOpen;
+
     private float enemiesToKill = 0f;
     private float deathQuota = 0f;
 
@@ -37,6 +42,7 @@ public class EnemyDetector : MonoBehaviour
     public void DeathCounter(float death)
     {
         deathQuota -= death;
+        enemyKilled.Play();
 
         if (deathQuota <= 0)
         {
@@ -57,7 +63,16 @@ public class EnemyDetector : MonoBehaviour
 
             if(victoria != null)
             {
-                victoria.SetActive(true);
+                if(victoria.gameObject.CompareTag("UI"))
+                {
+                    playerUI.SetActive(false);
+                }
+
+                victoria.SetActive(true);      
+            }
+            if(doorOpen != null)
+            {
+                doorOpen.Play();
             }
         }
     }

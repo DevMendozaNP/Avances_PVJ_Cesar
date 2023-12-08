@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Audio;
 
 public class PlayerCombat : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class PlayerCombat : MonoBehaviour
     public float bulletSpeed = 10;
     private Animator  animator;
     public float animTime = 0.3f;
+    [SerializeField] private AudioSource rifleBulletSound;
 
     private void Awake()
     {
@@ -36,6 +38,7 @@ public class PlayerCombat : MonoBehaviour
             animTime = 0.3f;
             var bullet = Instantiate(bulletPrefab, SpawnPoint.position, SpawnPoint.rotation);
             bullet.GetComponent<Rigidbody>().velocity = SpawnPoint.forward * bulletSpeed;
+            rifleBulletSound.Play();
         }
     }
 
