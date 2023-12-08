@@ -7,6 +7,8 @@ using UnityEngine.UI;
 
 public class DeathScreen : MonoBehaviour
 {
+    public string scenename;
+
     private void Awake()
     {
         Time.timeScale = 0;
@@ -20,7 +22,7 @@ public class DeathScreen : MonoBehaviour
     
     public void MenuOnClick()
     {
-        /*Application.Quit();*/
-        Debug.Log("El reinicio funciona");
+        SceneManager.LoadScene(scenename);
+        Time.timeScale = 1;
     }
 }
