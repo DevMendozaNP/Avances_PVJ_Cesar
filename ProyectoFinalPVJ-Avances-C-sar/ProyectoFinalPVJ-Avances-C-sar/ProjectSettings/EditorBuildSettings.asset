@@ -6,9 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/TestMapa.unity
-    guid: b4376b6197b5cfc46bf608b47df59420
-  - enabled: 1
     path: Assets/Scenes/IntroScreen.unity
     guid: 8a6aeedc0c64df44880946503f251730
+  - enabled: 1
+    path: Assets/Scenes/TestMapa.unity
+    guid: b4376b6197b5cfc46bf608b47df59420
   m_configObjects: {}
